@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src= "https://cdn.jsdelivr.net/npm/leaflet-legend@1.0.2/leaflet-legend.min.js"></script>
+    <script src= "polygon.js"></script>
+    <script src= "line.js"></script>
+
+    <meta charset="utf-8">
+    <title></title>
+
+
+    <style>
+    body {
+font-family: sans-serif;
+max-width: 900px;
+margin: auto;}
+
+#legend {
+  line-height: 0px;
+  background: white;
+  opacity: 0.8;
+  padding:5px 25px 5px 0px;
+}
+
+	</style>
+
+
+  </head>
+  <body>
+    <h1>Earthquakes that has occurred in the past 7days</h1>
+    <div id="map" style="height: 80vh"></div>
+    <p>This map depicts all earthquakes that have occurred in the past 7days. Data comes from the <a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php">USGS Live Earthquake Feed</a> and is updated every minute. Earthquakes are visualized with proportional symbols where earthquakes of larger magnitude are depicted with larger circle markers. Click on a marker for more information about the earthquake.</p>
+    <p2>The seismicity of Africa is considered moderate by world standards. As we see on the map in the last seven days, it is small and has less magnitude. Africa is often linked to tectonic activities in these regions, which affect the structure of the earth's crust, causing disturbances on the earth's surface. The most prominent tectonic feature in the continent is the East African rift system, one of the world's classic examples of a continental rift on land. The rift system in the eastern part of Africa is the bedrock of most of the seismic activities in Africa, especially in the northern, eastern, and southern parts of the continent. It extends from the Afar Triangle (the Red Sea and the Gulf of Aden), through North Africa (Ethiopia) to southern Africa (Mozambique).
+    </p2>
+
+
+  <div id="legend">
+		<h3><center>Earthquake magnitude</center></h3>
+		<ul style="list-style-type:none">
+			<li>
+				<svg width="24" height="24">
+					<circle cx="12" cy="20" r="2" stroke="red" stroke-width="3" fill="red" fill-opacity=".4"/>
+				</svg>
+				<text>Less than 1</text>
+			</li>
+			<li>
+				<svg width="24" height="24">
+					<circle cx="12" cy="18" r="4" stroke="red" stroke-width="3" fill="red" fill-opacity=".4"/>
+				</svg>
+				<text>Between 1 and 2.5</text>
+			</li>
+			<li>
+				<svg width="24" height="24">
+					<circle cx="12" cy="14" r="6" stroke="red" stroke-width="3" fill="red" fill-opacity=".4"/>
+				</svg>
+				<text>Between 2.5 and 4.5</text>
+			</li>
+			<li>
+				<svg width="24" height="24">
+					<circle cx="12" cy="12" r="10" stroke="red" stroke-width="3" fill="red" fill-opacity=".4"/>
+				</svg>
+				<text x="0" y="0)">Greater than 4.5</text>
+			</li>
+		</ul>
+	</div>
+    <script>
+
+      // I got this tileLayer is from © MapTiler © https://cloud.maptiler.com/maps/
+      var map = L.map('map').setView([4.297240, 39.410382], 4);
+      var Esri_WorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+	       attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+             }).addTo(map);
+             //water color
+             var Watercolor = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
+           	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+           	subdomains: 'abcd',
+           	minZoom: 1,
+           	maxZoom: 18,
+           	ext: 'jpg'
+           });
+           //Watercolor
+           //darkmap
+           var Dark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+           	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+           	subdomains: 'abcd',
+           	maxZoom: 18
+           });//
+
+
+           //google street
+
+           googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+               maxZoom: 18,
+               subdomains:['mt0','mt1','mt2','mt3']
+           })
+           //;googleStreets
+
+
+           //google hybrid
+
+           googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+               maxZoom: 18,
+               subdomains:['mt0','mt1','mt2','mt3']
+           });
+
+
+           //google sat
+           googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+               maxZoom: 18,
+               subdomains:['mt0','mt1','mt2','mt3']
+           });
+           //googleSat
+
+           // marker
+           var myIcon = L.icon({
+             iconUrl: 'map-point.png',
+             iconSize: [10, 25],
+             iconAnchor: [5, 10],
+
+           });
+           var singleMarker = L.marker([9.007027, 38.698503],{icon : myIcon});
+           var popup = singleMarker.bindPopup('my home town is also in the rift valley  ' + singleMarker.getLatLng()).openPopup()
+           popup.addTo(map);
+
+
+
+
+
+           //layercontroller
+           var baseMaps = {
+               "map": map,
+               "Watercolor": Watercolor,
+               "Dark": Dark,
+               "googleHybrid": googleHybrid,
+               "googleSat": googleSat
+
+           };
+
+           var overlayMaps = {
+               "marker": singleMarker
+           };
+           L.control.layers(baseMaps, overlayMaps, {collapsed : false}).addTo(map);
+
+
+       //calling Live GeoJson data from URL(((( I try to find other live Geojson data from different organizatin, but their data is not open for the developers. ))))
+
+             $.getJSON("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson",function(data){
+	// add GeoJSON layer to the map once the file is loaded
+		L.geoJson(data, {
+			pointToLayer: function(feature, latlng){
+                		var radiusSize,
+				mag = feature.properties.mag;
+                			if (mag > 4.5) radiusSize = 10;
+					else if ( mag > 2.5) radiusSize = 6;
+                			else if (mag > 1) radiusSize = 4;
+					else radiusSize = 2;
+                		var marker = L.circleMarker(latlng, {radius: radiusSize, color: 'red'});
+				marker.bindPopup("Location: " + feature.properties.place + "<br>Magnitude: " + feature.properties.mag + "<br><a href =" + feature.properties.url +">More info</a>");
+				return marker;
+			}
+		}).addTo(map);
+         });
+         var Legend =  new L.Control.Legend({
+		position: 'bottomright',
+	});
+
+	map.addControl(Legend);
+	$(".legend-container").append( $("#legend") );
+
+
+// add GeoJSON shape file by js
+  L.geoJSON(lineJson).addTo(map);
+  L.geoJSON(PolygonJson, {        //
+    onEachFeature:function(feature, layer){
+      layer.bindPopup(feature.properties.name +  " puling force direction " )
+    }
+  }).addTo(map);
+
+    </script>
+
+
+  </body>
+</html>
