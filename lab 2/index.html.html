@@ -135,15 +135,15 @@ margin: auto;}
            //googleSat
 
            // marker
-//            var myIcon = L.icon({
-//              iconUrl: 'map-point.png',
-//              iconSize: [10, 25],
-//              iconAnchor: [5, 10],
-
-           });
-           var singleMarker = L.marker([9.007027, 38.698503],{icon : myIcon});
-           var popup = singleMarker.bindPopup('my home town is also in the rift valley  ' + singleMarker.getLatLng()).openPopup()
-           popup.addTo(map);
+           // var myIcon = L.icon({
+           //   iconUrl: 'map-point.png',
+           //   iconSize: [10, 25],
+           //   iconAnchor: [5, 10],
+           //
+           // });
+           // var singleMarker = L.marker([9.007027, 38.698503],{icon : myIcon});
+           // var popup = singleMarker.bindPopup('my home town is also in the rift valley  ' + singleMarker.getLatLng()).openPopup()
+           // popup.addTo(map);
 
 
 
@@ -159,9 +159,9 @@ margin: auto;}
 
            };
 
-//            var overlayMaps = {
-//                "marker": singleMarker
-//            };
+           // var overlayMaps = {
+           //     "marker": singleMarker
+           // };
            L.control.layers(baseMaps,null, {collapsed : false}).addTo(map);
 
 
