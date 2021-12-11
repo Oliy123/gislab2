@@ -191,13 +191,13 @@ margin: auto;}
 	$(".legend-container").append( $("#legend") );
 
 
-// add GeoJSON shape file by js
-  L.geoJSON(lineJson).addTo(map);
-  L.geoJSON(PolygonJson, {        //
-    onEachFeature:function(feature, layer){
-      layer.bindPopup(feature.properties.name +  " puling force direction " )
-    }
-  }).addTo(map);
+// // add GeoJSON shape file by js
+//   L.geoJSON(lineJson).addTo(map);
+//   L.geoJSON(PolygonJson, {        //
+//     onEachFeature:function(feature, layer){
+//       layer.bindPopup(feature.properties.name +  " puling force direction " )
+//     }
+//   }).addTo(map);
 
     </script>
 
